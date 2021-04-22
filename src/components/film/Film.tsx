@@ -9,7 +9,7 @@ type Props = {
 };
 
 export function Film({ film }: Props): JSX.Element {
-  const { character } = film?.characterConnection?.character ?? [];
+  const characters = film?.characterConnection?.characters ?? [];
   return (
     <section className={s.film}>
       <h2 className={s.film__title}>
