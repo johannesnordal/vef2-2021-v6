@@ -32,6 +32,10 @@ export interface IPageInfo {
   endCursor?: string;
 }
 
+export interface IPerson {
+  person: ICharacter;
+}
+
 export interface IPeople {
   people: Array<ICharacter>;
   pageInfo: IPageInfo;

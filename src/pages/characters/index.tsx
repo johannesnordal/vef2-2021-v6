@@ -26,7 +26,7 @@ export default function PageComponent(
 }
 
 export const getServerSideProps: GetServerSideProps<PageProps> = async () => {
-  const peopleResponse = await fetchCharacters<IAllPeople>('');
+  const peopleResponse = await fetchCharacters('');
 
   return {
     props: {

@@ -1,6 +1,6 @@
-// fetch er sjálfgefið hér; next sér um að importa
-
 import { characterFragment } from '../graphql/characterFragment';
+
+import { IAllPeople } from '../types';
 
 // Ekki þarf að geyma í env
 const baseUrl = 'https://swapi-graphql.netlify.app/.netlify/functions/index';
