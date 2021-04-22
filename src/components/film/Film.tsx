@@ -9,6 +9,7 @@ type Props = {
 };
 
 export function Film({ film }: Props): JSX.Element {
+  const { character } = film?.characterConnection?.character ?? [];
   return (
     <section className={s.film}>
       <h2 className={s.film__title}>
@@ -21,7 +22,7 @@ export function Film({ film }: Props): JSX.Element {
         <div className={s.film__char}>
           <h3>Characters</h3>
           <div className={s.film__char__links}>
-            {film.characterConnection.characters.map((character, index) => (
+            {characters.map((character, index) => (
               <div key={index} className={s.film__char__link}>
                 <Link href={`/characters/${character.id}`}>
                   {character.name}
