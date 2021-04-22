@@ -4,38 +4,39 @@ import Link from 'next/link';
 
 import s from './Characters.module.scss';
 import { Button } from '../button/Button';
-import { ICharacter } from '../../types';
+import { ICharacter, IAllPeople } from '../../types';
 
 type Props = {
+  data: IAllPeople;
 };
 
-/**
- * Hjálpar týpa ef við erum að filtera burt hugsanleg null gildi:
- *
- * const items: T = itemsWithPossiblyNull
- *  .map((item) => {
- *    if (!item) {
- *      return null;
- *    }
- *    return item;
- *  })
- *  .filter((Boolean as unknown) as ExcludesFalse);
- * items verður Array<T> en ekki Array<T | null>
- */
-type ExcludesFalse = <T>(x: T | null | undefined | false) => x is T;
+export function Characters({ data }: Props): JSX.Element {
+  const { people, pageInfo } = data.allPeople;
 
-export function Characters({ }: Props): JSX.Element {
-  // TODO meðhöndla loading state, ekki þarf sérstaklega að villu state
   const [loading, setLoading] = useState<boolean>(false);
-
-  // TODO setja grunngögn sem koma frá server
-  const [characters, setCharacters] = useState<Array<ICharacter>>([]);
-
-  const [nextPage, setNextPage] = useState<string | null>(null);
+  const [characters, setCharacters] = useState<Array<ICharacter>>(people ?? []);
+  const [nextPage, setNextPage] = useState<string | null>(pageInfo?.endCursor ?? null);
+  const [hasNextPage, setHasNextPage] = useState<boolean>(pageInfo?.hasNextPage ?? false);
 
   const fetchMore = async (): Promise<void> => {
-    // TODO sækja gögn frá /pages/api/characters.ts (gegnum /api/characters), ef það eru fleiri
-    // (sjá pageInfo.hasNextPage) með cursor úr pageInfo.endCursor
+    if (hasNextPage) {
+      setLoading(true);
+
+      const result = await fetch(`/api/characters?after=${nextPage}`);
+
+      const {
+        allPeople: {
+          people: xpeople,
+          pageInfo: xpageInfo,
+        },
+      } = await result.json();
+
+      setCharacters(characters.concat(xpeople ?? []));
+      setNextPage(xpageInfo?.endCursor ?? null);
+      setHasNextPage(xpageInfo?.hasNextPage ?? false);
+
+      setLoading(false);
+    }
   };
 
   return (
@@ -47,8 +48,7 @@ export function Characters({ }: Props): JSX.Element {
           </li>
         ))}
       </ul>
-
-      <Button disabled={loading} onClick={fetchMore}>Fetch more</Button>
+      {hasNextPage && <Button disabled={loading} onClick={fetchMore}>Fetch more</Button>}
     </section>
   );
 }

@@ -5,6 +5,15 @@
     margin-bottom: 1rem;
   }
 
+  &__links {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__links__link {
+    padding-right: 1rem;
+  }
+
   &__list {
     display: flex;
     list-style: none;

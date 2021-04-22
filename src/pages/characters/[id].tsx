@@ -38,8 +38,10 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({ params
   const id = params?.id as string | undefined;
 
   const query = `
-    query($id: ID!) {
-      # TODO sækja person
+    query ($id: ID!) {
+      person(id: $id) {
+        ...character
+      }
     }
     ${characterFragment}
   `;
@@ -47,8 +49,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({ params
   let person = null;
 
   if (id) {
-    // TODO EKKI any
-    const result = await fetchSwapi<any>(query, { id });
+    const result = await fetchSwapi<ICharacter>(query, { id });
 
     person = result.person ?? null;
   }

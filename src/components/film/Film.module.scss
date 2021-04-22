@@ -1,4 +1,36 @@
-
 .film {
-  
+    white-space: pre-line;
+}
+
+.film__char {
+    flex: 0 1 auto;
+    max-width: 80vw;
+}
+
+.film__char__link {
+    padding: 0 2rem 0.25rem 0;
+}
+
+.film__char__links {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.film__crawl {
+    flex: 1 0 auto;
+    font-family: monospace;
+    padding-right: 2rem;
+    min-width: 20vw;
+}
+
+.film__line {
+    margin: 2rem 0 2rem 0;
+}
+
+.film__main {
+    display: flex;
+}
+
+.film__title {
+    margin: 1rem 0 2rem 0;
 }
