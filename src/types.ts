@@ -9,7 +9,7 @@ export interface ICharacter {
 }
 
 export interface IFilm {
-  characterConnection?: IFilmCharacterConnection;
+  characterConnection: IFilmCharacterConnection;
   episodeID?: number;
   openingCrawl?: string;
   title?: string;
